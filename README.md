@@ -8,16 +8,16 @@
 
 ## 🚀 **Features**
 
-- ✨ Floating Clippy on every webpage
-- 🧠 Chat with GPT-based AI (using OpenAI, Groq, or Together API)
-- 💬 Smart suggestions like:
+- Floating Clippy on every webpage
+- Chat with GPT-based AI (using OpenAI, Groq, or Together API)
+- Smart suggestions like:
   - “Fix grammar”
   - “Summarize selected text”
   - “Write a reply”
-- 📎 Nostalgic Windows XP UI
-- 🗣️ Optional voice input/output
-- 🎭 Personality switching (funny, helpful, sarcastic)
-- 🔓 Fully open source and free!
+- Nostalgic Windows XP UI
+- Optional voice input/output
+- Personality switching (funny, helpful, sarcastic)
+- Fully open source and free!
 
 ---
 
