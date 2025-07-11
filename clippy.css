@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f9f9f9;
+}
+
+#clippy-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 260px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  z-index: 9999;
+}
+
+#clippy-avatar {
+  font-size: 32px;
+  user-select: none;
+}
+
+#clippy-chatbox {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#clippy-output {
+  background: #f0f0f0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  min-height: 40px;
+}
+
+#clippy-input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}

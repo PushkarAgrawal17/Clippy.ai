@@ -7,10 +7,10 @@
     "host_permissions": ["<all_urls>"],
     "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_icon": "clippy.png"
     },
     "background": {
-    "service_worker": "background.js"
+    "service_worker": "clippy.js"
     },
     "content_scripts": [
     {
