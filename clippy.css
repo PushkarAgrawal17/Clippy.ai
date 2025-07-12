@@ -216,3 +216,73 @@ body {
         transform: scale(1.4);
     }
 }
+
+/* Clippy bubble */
+.clippy-emoji {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 64px;
+  z-index: 99998;
+  animation: bounceIn 0.4s ease;
+  user-select: none;
+}
+
+.clippy-bubble {
+  position: fixed;
+  bottom: 130px;
+  right: 40px;
+  max-width: 280px;
+  padding: 15px;
+  background: #fefefe;
+  border-radius: 15px;
+  border: 2px solid #ddd;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 99999;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.clippy-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #fefefe transparent transparent transparent;
+}
+
+.bubble-text {
+  font-size: 14px;
+  color: #333;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+}
+
+.clippy-bubble.expand {
+  width: 80vw;
+  height: 70vh;
+  right: 10vw;
+  bottom: 10vh;
+  border-radius: 20px;
+  padding: 20px;
+  overflow: auto;
+  font-size: 16px;
+  background-color: white;
+}
+
+.clippy-bubble.expand::after {
+  display: none;
+}
+
+@keyframes bounceIn {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
