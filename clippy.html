@@ -1,47 +1,24 @@
+<!-- popup.html -->
 <!DOCTYPE html>
+<html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Clippy AI Assistant</title>
-  <link rel="stylesheet" href="clippy.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clippy.ai</title>
+    <link rel="stylesheet" href="clippy.css" />
 </head>
+
 <body>
-
-  <div id="clippy-container">
-    <div id="clippy-avatar">📎</div>
-    <div id="clippy-chatbox">
-      <div id="clippy-output">Hi there! I’m Clippy!!<br>How can I help you?</div>
-      <input type="text" id="clippy-input" placeholder="Ask me anything..." />
+    <div id="clippy-container">
+        <img src="clippy-assets/clippy-idle.gif" id="clippy" />
+        <div id="speech-bubble">
+            <p id="response">Hi! I'm Clippy. How can I help?</p>
+        </div>
+        <input id="userInput" placeholder="Ask me something..." />
+        <button id="askBtn">Ask</button>
     </div>
-  </div>
-
-  <script>
-    const input = document.getElementById("clippy-input");
-    const output = document.getElementById("clippy-output");
-
-    input.addEventListener("keydown", async (e) => {
-      if (e.key === "Enter" && input.value.trim()) {
-        const userMsg = input.value.trim();
-        output.innerHTML = `Thinking about: <i>${userMsg}</i>...`;
-        input.disabled = true;
-
-        // Fetch AI response (replace with real API call)
-        const reply = await fakeAIReply(userMsg);
-
-        output.innerHTML = reply;
-        input.disabled = false;
-        input.value = "";
-      }
-    });
-
-    function fakeAIReply(msg) {
-      return new Promise((res) => {
-        setTimeout(() => {
-          res("Hmm... I'm still learning. But I think you should try refreshing the page!!");
-        }, 1000);
-      });
-    }
-  </script>
-
+    <script src="clippy.js"></script>
 </body>
+
 </html>
