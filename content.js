@@ -2,12 +2,13 @@ let clippyIcon, bubble, expanded = false;
 
 document.addEventListener("mouseup", async () => {
   const selectedText = window.getSelection().toString().trim();
+
   if (!selectedText) {
     removeClippy();
     return;
   }
 
-  showClippy("Thinking...");
+  showClippy("💭 Thinking...");
 
   try {
     const response = await fetch("http://localhost:3000/summarize", {
@@ -19,17 +20,17 @@ document.addEventListener("mouseup", async () => {
     });
 
     const data = await response.json();
-    const aiReply = data.reply || "No response";
+    const aiReply = data.reply?.trim() || "🤷 I got nothing.";
 
     showClippy(aiReply);
   } catch (err) {
-    console.error("Clippy API error:", err);
-    showClippy("Couldn't reach my brain!");
+    console.error("❌ Clippy API error:", err);
+    showClippy("😵 I couldn’t reach my brain!");
   }
 });
 
 function showClippy(text) {
-  // Show 📎 if not already
+  // Create or update Clippy emoji
   if (!clippyIcon) {
     clippyIcon = document.createElement("div");
     clippyIcon.className = "clippy-emoji";
@@ -37,7 +38,7 @@ function showClippy(text) {
     document.body.appendChild(clippyIcon);
   }
 
-  // Show bubble
+  // Create or update the bubble
   if (!bubble) {
     bubble = document.createElement("div");
     bubble.className = "clippy-bubble";
