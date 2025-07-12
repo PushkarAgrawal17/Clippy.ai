@@ -1,98 +1,179 @@
-/* clippy.css */
 body {
     margin: 0;
     padding: 0;
     background: transparent;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-#clippy-widget {
-    width: 300px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ddd;
+html,
+body {
+    margin: 0;
     padding: 0;
-}
-
-#clippy-header {
-    background: #0078d7;
-    color: white;
-    padding: 12px;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    background: linear-gradient(135deg, #fdf2f8, #fce7f3, #e0f2fe);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+@keyframes floatingGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background: linear-gradient(270deg, #c7d2fe, #a5f3fc, #f0abfc);
+    background-size: 600% 600%;
+    animation: floatingGlow 20s ease infinite;
+    border-radius: 20px;
+}
+
+/* Widget Container */
+#clippy-widget {
+    width: 360px;
+    background: linear-gradient(135deg, #fdf2f8, #fce7f3, #e0f2fe);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+#clippy-widget:hover {
+    transform: translateY(-1px);
+}
+
+/* Header */
+#clippy-header {
+    background: linear-gradient(135deg, #d1faff, #a0e7e5);
+    background: linear-gradient(135deg, #312e81, #4338ca);
+    background: linear-gradient(135deg, #a5b4fc, #c084fc);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 #clippy-avatar {
     width: 40px;
-    height: auto;
-    border-radius: 50%;
-    background: white;
-    padding: 2px;
+    height: 40px;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    object-fit: contain;
 }
 
+/* Chat Box */
 #chat-box {
-    padding: 12px;
+    background: linear-gradient(270deg, #c7d2fe, #a5f3fc, #f0abfc);
+    background-size: 600% 600%;
+    animation: floatingGlow 20s ease infinite;
     flex-grow: 1;
+    overflow-y: auto;
+    min-height: 200px;
+    max-height: 400px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-height: 250px;
-    overflow-y: auto;
-    background: #f5f5f5;
+    gap: 14px;
+    scroll-behavior: smooth;
+    padding: 10px 7px;
 }
 
+/* Chat Bubbles */
 .chat-bubble {
-    padding: 10px 14px;
-    border-radius: 12px;
-    max-width: 90%;
+    padding: 14px 16px;
+    border-radius: 16px;
     font-size: 14px;
-    line-height: 1.4;
-    word-wrap: break-word;
+    line-height: 1.6;
+    max-width: 85%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.25s ease-out forwards;
+    opacity: 0;
+    word-break: break-word;
 }
 
 .bot {
-    background: #e6e6e6;
+    background: #ffffff;
     align-self: flex-start;
+    color: #1f2937;
 }
 
 .user {
-    background: #d1ecf1;
+    background: #6366f1;
     align-self: flex-end;
+    color: #ffffff;
 }
 
+/* Input Section */
 #input-row {
+    background: linear-gradient(135deg, #f0f4ff, #f3e8ff);
+    padding: 14px 16px;
     display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background: #fff;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid #e5e7eb;
 }
 
+/* Input Field */
 #userInput {
     flex: 1;
-    padding: 8px;
+    padding: 10px 14px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #f9fafb;
+    color: #111827;
     outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
+#userInput:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Ask Button */
 #askBtn {
-    padding: 8px 12px;
-    margin-left: 8px;
-    background: #0078d7;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
 #askBtn:hover {
-    background: #005fa1;
+    background: linear-gradient(135deg, #4f46e5, #6d28d9);
+    transform: scale(1.05);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
