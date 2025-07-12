@@ -1,16 +1,3 @@
-html,
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #fdf2f8, #fce7f3, #e0f2fe);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-}
-
-
 /* Widget Container */
 #clippy-widget {
     width: 360px;
