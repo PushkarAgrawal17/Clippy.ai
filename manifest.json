@@ -2,26 +2,35 @@
     "manifest_version": 3,
     "name": "Clippy.ai",
     "version": "1.0",
-    "description": "Retro Clippy with AI brain",
+    "description": "A retro AI assistant with a modern brain",
     "permissions": [
-        "scripting",
-        "storage",
-        "activeTab"
+        "storage"
     ],
     "host_permissions": [
-        "http://localhost:3000/",
-        "https://openrouter.ai/"
+        "http://localhost:3000/"
     ],
     "action": {
         "default_popup": "clippy.html",
         "default_icon": "icons/icon128.png"
     },
-    "background": {
-        "service_worker": "background.js"
-    },
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
-    }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "clippy.css",
+                "clippy.js",
+                "clippy-assets/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
 }
