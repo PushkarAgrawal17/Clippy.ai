@@ -1,22 +1,27 @@
-<!-- popup.html -->
+<!-- clippy.html -->
 <!DOCTYPE html>
-<html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clippy.ai</title>
     <link rel="stylesheet" href="clippy.css" />
 </head>
 
 <body>
-    <div id="clippy-container">
-        <img src="clippy-assets/clippy-idle.gif" id="clippy" />
-        <div id="speech-bubble">
-            <p id="response">Hi! I'm Clippy. How can I help?</p>
+    <div id="clippy-widget">
+        <div id="clippy-header">
+            <img id="clippy-avatar" src="clippy-assets/clippy-idle.gif" alt="Clippy" />
+            <span>Clippy.ai</span>
         </div>
-        <input id="userInput" placeholder="Ask me something..." />
-        <button id="askBtn">Ask</button>
+        <div id="chat-box">
+            <div class="chat-bubble bot" id="response">Hi! I’m Clippy. How can I help you today?</div>
+        </div>
+        <div id="input-row">
+            <input id="userInput" type="text" placeholder="Ask something..." />
+            <button id="askBtn">➤</button>
+        </div>
     </div>
     <script src="clippy.js"></script>
 </body>
