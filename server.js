@@ -33,7 +33,10 @@ app.post('/ask', async (req, res) => {
                         You are helpful, concise, and friendly. Always respond as Clippy, not as Mistral or an AI model.`
                     },
                     ...history
-                ]
+                ],
+                temperature: 0.7,
+                max_tokens: 250,  // ✅ Limit output length
+                stop: ["assertEqual", "```", "<script", "<style"] // ✅ Prevent weird endings
             })
         });
 
