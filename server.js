@@ -26,7 +26,14 @@ app.post('/ask', async (req, res) => {
             },
             body: JSON.stringify({
                 model: 'mistralai/mistral-7b-instruct',
-                messages: history  // ✅ use full chat history
+                messages: [
+                    {
+                        role: "system",
+                        content: `You are Clippy.ai — a retro-themed AI Chrome Extension assistant built by team ByteForge.
+                        You are helpful, concise, and friendly. Always respond as Clippy, not as Mistral or an AI model.`
+                    },
+                    ...history
+                ]
             })
         });
 
