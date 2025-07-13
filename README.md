@@ -30,6 +30,8 @@
 ![Clippy.ai Screenshot](clippy-assets/ss3.png)
 ![Clippy.ai Screenshot](clippy-assets/ss4.png)
 
+Link for demo video-
+https://drive.google.com/file/d/1mFEO9u5o1NtdDvUZA4hO_WNBtu1_Yn4F/view?usp=sharing
 ---
 
 ## 🛠️ **Tech Stack**
