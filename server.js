@@ -96,6 +96,55 @@ app.post('/summarize', async (req, res) => {
     }
 });
 
+app.post('/suggest', async (req, res) => {
+    const { text } = req.body;
+
+    if (!text) return res.status(400).json({ reply: "No text provided." });
+
+  const prompt = `
+You are Clippy.ai — a playful yet intelligent assistant who can read the user's mind. The user is either writing normal text or code in some programming language (like C++, Python, JavaScript, etc).
+
+👉 Your job:
+1. If it's **code**, detect the language and complete the code **logically and correctly**.
+   - Fix any syntax issues.
+   - Suggest the next few lines that would commonly follow.
+   - Wrap the reply in a valid code block
+
+2. If it's **normal text**, finish their sentence smoothly with a helpful, witty, or emotionally intelligent continuation. Make it sound natural and useful.
+
+🚫 Don't explain. Just return the **completed version** directly.
+
+Here’s the partial input from the user:
+"${text.trim()}"
+`;
+    try {
+        const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'HTTP-Referer': 'http://localhost:3000',
+                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Content-Type': 'application/json',
+                'X-Title': 'ClippyExtension'
+            },
+            body: JSON.stringify({
+                model: 'mistralai/mistral-7b-instruct',
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.7,
+                max_tokens: 100
+            })
+        });
+
+        const data = await openRouterRes.json();
+        console.log("💡 Suggest response:", JSON.stringify(data, null, 2));
+
+        const reply = data.choices?.[0]?.message?.content?.trim() || "🤷 No suggestion.";
+        res.json({ reply });
+
+    } catch (err) {
+        console.error("❌ Error in /suggest:", err);
+        res.status(500).json({ reply: "Something went wrong." });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`✅ Clippy server (OpenRouter) running at http://localhost:${PORT}`);
