@@ -99,7 +99,7 @@ voiceBtn.addEventListener("click", () => {
         recognition.maxAlternatives = 1;
 
         recognition.onstart = () => {
-            voiceBtn.innerText = "🎙️";
+            voiceBtn.innerHTML = `<i class="fas fa-microphone-lines" style="color: white;"></i>`;
         };
 
         recognition.onresult = (event) => {
@@ -113,7 +113,7 @@ voiceBtn.addEventListener("click", () => {
         };
 
         recognition.onend = () => {
-            voiceBtn.innerText = "🎤";
+            voiceBtn.innerHTML = `<i class="fas fa-microphone" style="color: white;"></i>`;
         };
 
         recognition.start();
