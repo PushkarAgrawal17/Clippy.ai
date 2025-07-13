@@ -53,7 +53,20 @@ askBtn.addEventListener("click", async () => {
         });
 
         const data = await res.json();
-        const botReply = data.reply || "Hmm, couldn't get that.";
+        let botReply = data.reply || "Hmm, couldn't get that.";
+
+        // 🧹 Advanced cleanup
+        botReply = botReply
+            .replace(/(?:\s*\n\s*){2,}/g, '\n\n')      // collapse extra newlines
+            .replace(/[\u{1F600}-\u{1F64F}]{5,}/gu, '') // remove emoji spam
+            .replace(/assertEqual.*$/i, '')            // remove unwanted code leftovers
+            .replace(/equalSign.*$/i, '')
+            .replace(/```[\s\S]*?```/g, '')            // strip code blocks
+            .replace(/\*{2,}/g, '')                    // weird markdown bolds
+            .replace(/\s{2,}/g, ' ')                   // extra spaces
+            .trim();
+
+
         typingEl.innerText = botReply;
 
         // ✅ Save assistant reply to chat history
@@ -61,7 +74,7 @@ askBtn.addEventListener("click", async () => {
         chatHistory = trimAndWarnHistory(chatHistory);
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
-    }finally {
+    } finally {
         clippyImg.src = "clippy-assets/clippy-idle.gif";
     }
 });
