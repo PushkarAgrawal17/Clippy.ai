@@ -81,3 +81,43 @@ function replaceLastBotMessage(text) {
         appendMessage(text, "bot");
     }
 }
+
+const voiceBtn = document.getElementById("voiceBtn");
+
+voiceBtn.addEventListener("click", () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Speech Recognition not supported in this browser.");
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+            voiceBtn.innerText = "🎙️";
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            input.value = transcript;
+            input.focus();
+        };
+
+        recognition.onerror = (e) => {
+            alert("Speech error: " + e.error);
+        };
+
+        recognition.onend = () => {
+            voiceBtn.innerText = "🎤";
+        };
+
+        recognition.start();
+    }).catch((err) => {
+        alert("🎤 Microphone is blocked.\n\nTo fix this:\n1. Click on extensions icon\n2. Click on 3 dots beside Clippy.ai extension\n3. Go to View web permissions\n4. Set microphone permission to 'Allow'\n5. Reload the extension");
+    });
+});
