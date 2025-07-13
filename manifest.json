@@ -15,9 +15,6 @@
         "default_popup": "clippy.html",
         "default_icon": "icons/icon128.png"
     },
-    "background": {
-        "service_worker": "background.js"
-    },
     "content_scripts": [
         {
             "matches": [

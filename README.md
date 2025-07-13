@@ -25,7 +25,10 @@
 
 > _“It looks like you’re browsing the web. Want some help?”_
 
-![Clippy.ai Screenshot](clippy-assets/demo.png)
+![Clippy.ai Screenshot](clippy-assets/ss1.png)
+![Clippy.ai Screenshot](clippy-assets/ss2.png)
+![Clippy.ai Screenshot](clippy-assets/ss3.png)
+![Clippy.ai Screenshot](clippy-assets/ss4.png)
 
 ---
 
@@ -35,7 +38,7 @@
 |-----------------------|------------------------------|
 | Extension Framework   | Chrome Manifest v3           |
 | Assistant Logic       | OpenAI / Groq / Together API |
-| UI & Animations       | HTML, CSS, JavaScript        |
+| UI & Animations       | HTML, CSS, JavaScript, Node JS, Express JS        |
 
 
 ---
