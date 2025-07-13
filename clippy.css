@@ -154,7 +154,6 @@
     width: 6px;
     height: 6px;
     background-color: #9ca3af;
-    /* light gray */
     border-radius: 50%;
     animation: blink 1.4s infinite ease-in-out;
     opacity: 0.4;
