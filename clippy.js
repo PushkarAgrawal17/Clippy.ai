@@ -5,14 +5,18 @@ const responseBox = document.getElementById("chat-box");
 const clippyImg = document.getElementById("clippy-avatar");
 // 1️⃣ Try to load previous session chat (if any)
 // But we will NOT display it — just use it internally for context
-let chatHistory = JSON.parse(localStorage.getItem("clippyChat")) || [];
+let chatHistory = [];
+
+chrome.storage.sync.get("clippyChat", (data) => {
+    chatHistory = data.clippyChat || [];
+});
 
 // 2️⃣ Clear localStorage when popup is closed or reloaded
 // This ensures each new popup session is fresh
-window.addEventListener("beforeunload", () => {
-    localStorage.removeItem("clippyChat");
-    chatHistory = [];
-});
+// window.addEventListener("beforeunload", () => {
+//     localStorage.removeItem("clippyChat");
+//     chatHistory = [];
+// });
 
 askBtn.addEventListener("click", async () => {
     const userInput = input.value.trim();
@@ -22,7 +26,7 @@ askBtn.addEventListener("click", async () => {
 
     // ➕ Save user input to chat history
     chatHistory.push({ role: "user", content: userInput });
-    localStorage.setItem("clippyChat", JSON.stringify(chatHistory));
+    chrome.storage.sync.set({ clippyChat: chatHistory });
 
     input.value = "";
 
@@ -50,7 +54,7 @@ askBtn.addEventListener("click", async () => {
 
         // ✅ Save assistant reply to chat history
         chatHistory.push({ role: "assistant", content: botReply });
-        localStorage.setItem("clippyChat", JSON.stringify(chatHistory));
+        chrome.storage.sync.set({ clippyChat: chatHistory });
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
     }finally {
