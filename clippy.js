@@ -3,12 +3,27 @@ const askBtn = document.getElementById("askBtn");
 const input = document.getElementById("userInput");
 const responseBox = document.getElementById("chat-box");
 const clippyImg = document.getElementById("clippy-avatar");
+// 1️⃣ Try to load previous session chat (if any)
+// But we will NOT display it — just use it internally for context
+let chatHistory = JSON.parse(localStorage.getItem("clippyChat")) || [];
+
+// 2️⃣ Clear localStorage when popup is closed or reloaded
+// This ensures each new popup session is fresh
+window.addEventListener("beforeunload", () => {
+    localStorage.removeItem("clippyChat");
+    chatHistory = [];
+});
 
 askBtn.addEventListener("click", async () => {
     const userInput = input.value.trim();
     if (!userInput) return;
 
     appendMessage(userInput, "user");
+
+    // ➕ Save user input to chat history
+    chatHistory.push({ role: "user", content: userInput });
+    localStorage.setItem("clippyChat", JSON.stringify(chatHistory));
+
     input.value = "";
 
     clippyImg.src = "clippy-assets/clippy-thinking.gif";
@@ -26,14 +41,19 @@ askBtn.addEventListener("click", async () => {
         const res = await fetch("http://localhost:3000/ask", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userInput })
+            body: JSON.stringify({ history: chatHistory })  // ✅ send full history
         });
 
         const data = await res.json();
-        typingEl.innerText = data.reply || "Hmm, couldn't get that.";
+        const botReply = data.reply || "Hmm, couldn't get that.";
+        typingEl.innerText = botReply;
+
+        // ✅ Save assistant reply to chat history
+        chatHistory.push({ role: "assistant", content: botReply });
+        localStorage.setItem("clippyChat", JSON.stringify(chatHistory));
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
-    } finally {
+    }finally {
         clippyImg.src = "clippy-assets/clippy-idle.gif";
     }
 });

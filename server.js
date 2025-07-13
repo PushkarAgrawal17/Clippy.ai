@@ -9,7 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/ask', async (req, res) => {
-    const userInput = req.body.message;
+    const history = req.body.history;
+
+    if (!Array.isArray(history) || history.length === 0) {
+        return res.status(400).json({ reply: "No history provided." });
+    }
 
     try {
         const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -22,7 +26,7 @@ app.post('/ask', async (req, res) => {
             },
             body: JSON.stringify({
                 model: 'mistralai/mistral-7b-instruct',
-                messages: [{ role: 'user', content: userInput }]
+                messages: history  // ✅ use full chat history
             })
         });
 
