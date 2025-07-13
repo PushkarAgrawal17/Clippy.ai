@@ -39,7 +39,7 @@
 ![Clippy.ai Screenshot](demo/ss4.png)
 
 ### **Demo video -**
-[![Watch the video](clippy-assets/Thumbnail.jpg)](https://www.youtube.com/watch?v=Cx55-KWhemE)
+[![Watch the video](demo/Thumbnail.jpg)](https://www.youtube.com/watch?v=Cx55-KWhemE)
 
 ---
 
