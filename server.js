@@ -16,21 +16,21 @@ app.post('/ask', async (req, res) => {
     }
 
     try {
-        const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const Resp = await fetch(`${process.env.FETCH}`, {
             method: 'POST',
             headers: {
                 'HTTP-Referer': 'http://localhost:3000',
-                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Authorization': `Bearer ${process.env.API_KEY}`,
                 'Content-Type': 'application/json',
                 'X-Title': 'ClippyExtension'
             },
             body: JSON.stringify({
-                model: 'mistralai/mistral-7b-instruct',
+                model: `${process.env.MODEL}`,
                 messages: [
                     {
                         role: "system",
                         content: `You are Clippy.ai — a retro-themed, floating AI assistant built by team ByteForge for OSDHack'25, inspired by the original Microsoft Clippit.
-                        You are helpful, concise, and friendly. Always identify as Clippy, never as Mistral, OpenRouter, or a generic AI model.
+                        You are helpful, concise, and friendly. Always identify as Clippy, never as a generic AI model.
                         Your responses should:
                         - Be short and precise by default
                         - Use correct formatting (markdown where appropriate)
@@ -46,14 +46,14 @@ app.post('/ask', async (req, res) => {
             })
         });
 
-        const data = await openRouterRes.json();
-        console.log("🔁 OpenRouter response:", JSON.stringify(data, null, 2));
+        const data = await Resp.json();
+        console.log("🔁 Server response:", JSON.stringify(data, null, 2));
 
         const reply = data.choices?.[0]?.message?.content || "I didn’t get that.";
         res.json({ reply });
 
     } catch (err) {
-        console.error("❌ OpenRouter Error:", err);
+        console.error("❌ Server Error:", err);
         res.status(500).json({ reply: "Something went wrong." });
     }
 });
@@ -75,22 +75,22 @@ app.post('/summarize', async (req, res) => {
     console.log("📨 Prompt:", prompt);
 
     try {
-        const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const Resp = await fetch(`${process.env.FETCH}`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Authorization': `Bearer ${process.env.API_KEY}`,
                 'Content-Type': 'application/json',
                 'X-Title': 'ClippySummarize'
             },
             body: JSON.stringify({
-                model: 'mistralai/mistral-7b-instruct',
+                model: `${process.env.MODEL}`,
                 messages: [{ role: 'user', content: prompt }],
                 temperature: 0.7,
                 max_tokens: 101
             })
         });
 
-        const data = await openRouterRes.json();
+        const data = await Resp.json();
         console.log("📎 Summarize response:", JSON.stringify(data, null, 2));
 
         const reply = data.choices?.[0]?.message?.content?.trim() || "I didn’t get anything.";
@@ -98,7 +98,7 @@ app.post('/summarize', async (req, res) => {
 
     } catch (err) {
         console.error("❌ Error in /summarize:", err.message || err);
-        res.status(500).json({ reply: "OpenRouter failed me." });
+        res.status(500).json({ reply: "Server failed me." });
     }
 });
 
@@ -121,23 +121,23 @@ app.post('/suggest', async (req, res) => {
     "${text.trim()}"
     `;
     try {
-        const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const Resp = await fetch(`${process.env.FETCH}`, {
             method: 'POST',
             headers: {
                 'HTTP-Referer': 'http://localhost:3000',
-                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Authorization': `Bearer ${process.env.API_KEY}`,
                 'Content-Type': 'application/json',
                 'X-Title': 'ClippyExtension'
             },
             body: JSON.stringify({
-                model: 'mistralai/mistral-7b-instruct',
+                model: `${process.env.MODEL}`,
                 messages: [{ role: 'user', content: prompt }],
                 temperature: 0.7,
                 max_tokens: 101
             })
         });
 
-        const data = await openRouterRes.json();
+        const data = await Resp.json();
         console.log("💡 Suggest response:", JSON.stringify(data, null, 2));
 
         const reply = data.choices?.[0]?.message?.content?.trim() || "🤷 No suggestion.";
@@ -150,5 +150,5 @@ app.post('/suggest', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Clippy server (OpenRouter) running at http://localhost:${PORT}`);
+    console.log(`✅ Clippy server running at http://localhost:${PORT}`);
 });

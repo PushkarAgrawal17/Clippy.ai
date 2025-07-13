@@ -10,13 +10,13 @@
 
 - Floating Clippy on every webpage
 - Chat with GPT-based AI (using OpenAI, Groq, or Together API)
-- Smart suggestions like:
-  - “Fix grammar”
-  - “Summarize selected text”
-  - “Write a reply”
-- Nostalgic Windows XP UI
-- Optional voice input/output
-- Personality switching (funny, helpful, sarcastic)
+- Smart and engaging features when text is selected like:
+  - Summarizes/translates selected text
+  - Gives quirky reactions
+  - More such suggestions and reactions
+- Modern UI but with nostalgic effect
+- Optional voice input
+- Cheerful and helpful personality
 - Fully open source and free!
 
 ---
@@ -25,7 +25,7 @@
 
 > _“It looks like you’re browsing the web. Want some help?”_
 
-![Clippy.ai Screenshot](assets/demo.png)
+![Clippy.ai Screenshot](clippy-assets/demo.png)
 
 ---
 
@@ -36,8 +36,7 @@
 | Extension Framework   | Chrome Manifest v3           |
 | Assistant Logic       | OpenAI / Groq / Together API |
 | UI & Animations       | HTML, CSS, JavaScript        |
-| Voice Features (opt)  | Web Speech API               |
-| Drag & UI Behavior    | Vanilla JS (or GSAP/Framer)  |
+
 
 ---
 
@@ -49,56 +48,46 @@
    cd clippy-ai
    ```
 
-2. **Add your API key**
-   - Open clippy.js
-   - Replace YOUR_API_KEY_HERE with your OpenAI / Groq / Together API key
+2. **Install node modules in your root directory by this command:**
+    ```bash
+    npm install
+    ```
 
-3. **Load the Extension in Chrome**
+3. **Create a `.env` file in the root folder.**
+
+4. **Paste your API key, model and fetch url like this in the .env file:**
+   ```bash
+    API_KEY=your_actual_api_key_here
+    MODEL=your_api_key_model_here
+    FETCH=your_full_api_endpoint_here
+    ```
+
+5. **Turn the server on:**
+    ```bash
+    npm run dev
+    ```
+
+6. **Load the Extension in Chrome**
    - Go to chrome://extensions
    - Turn on Developer Mode
    - Click Load Unpacked
-   - Select the clippy-ai/ folder
+   - Select the Clippy.ai/ folder
 
-4. Done! Visit any site and Clippy will appear!
-
----
-
-## 🔑 **API Configuration**
-
-**Use one of the following APIs (edit clippy.js):**
-
-**Option 1: OpenAI (paid)**
-``` bash
-    Authorization: Bearer YOUR_OPENAI_KEY
-    Endpoint: https://api.openai.com/v1/chat/completions
-    Model: gpt-3.5-turbo
-```
-
-**Option 2: Groq (free & fast!)**
-``` bash
-    Authorization: Bearer YOUR_GROQ_API_KEY
-    Endpoint: https://api.groq.com/openai/v1/chat/completions
-    Model: mixtral-8x7b-32768
-```
-
-**Option 3: Together.ai**
-``` bash
-    Authorization: Bearer YOUR_TOGETHER_API_KEY
-    Endpoint: https://api.together.xyz/v1/chat/completions
-    Model: mistralai/Mixtral-8x7B-Instruct-v0.1
-```
+Done! Visit any site and Clippy will appear!
+(Do check the permissions for the extensions)
 
 ---
 
 ## 📁 **Project Structure**
 ``` bash
-    clippy-ai/
+    Clippy.ai/
     ├── manifest.json         # Chrome extension config
     ├── content.js            # Injects Clippy into all pages
-    ├── clippy.js             # GPT logic & chat handling
+    ├── clippy.js             # Logic handling for chats
     ├── clippy.html           # Chat UI layout
-    ├── clippy.css            # Styling (retro + draggable)
-    ├── assets/               # Clippy images, sounds
+    ├── clippy.css            # Styling
+    ├── server.js             # Connection
+    ├── clippy-assets/        # Clippy images
     ├── README.md
     └── LICENSE
 ```
@@ -122,13 +111,10 @@ This project is licensed under the _**MIT License**_.
 
 ## ✨ **Credits**
 
-- Original Clippy inspiration: _Microsoft Office Assistant (1997–2003)_
-- AI: _OpenAI, Groq, Together.ai_
-- Retro style: _XP nostalgia, Comic Sans, pixel art_
+Original Clippy inspiration: _Microsoft Office Assistant (1997–2003)_
 
 ---
 
 ## 💡**Built at a Hackathon**
 
-_**Clippy.ai**_ was created by _ByteForge_ during _**OSDHack'25**_
-Because everyone deserves a helpful paperclip again 🧷
+_**Clippy.ai**_ was created by _ByteForge_ during _**OSDHack'25**_ because everyone deserves a helpful paperclip again 🧷
