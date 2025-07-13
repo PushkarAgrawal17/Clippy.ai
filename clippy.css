@@ -1,43 +1,3 @@
-/* body {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #fdf2f8, #fce7f3, #e0f2fe);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-}
-
-@keyframes floatingGlow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-body {
-    background: linear-gradient(270deg, #c7d2fe, #a5f3fc, #f0abfc);
-    background-size: 600% 600%;
-    animation: floatingGlow 20s ease infinite;
-    border-radius: 20px;
-} */
-
 /* Widget Container */
 #clippy-widget {
     width: 360px;
@@ -45,11 +5,16 @@ body {
     backdrop-filter: blur(16px);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+    min-height: 400px;
+    max-width: 500px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border: none;
     transition: transform 0.3s ease;
+    resize:both;
 }
 
 #clippy-widget:hover {
@@ -151,7 +116,7 @@ body {
 
 /* Ask Button */
 #askBtn {
-    padding: 10px 14px;
+    padding: 8px 12px;
     background: linear-gradient(135deg, #6366f1, #7c3aed);
     color: white;
     border: none;
@@ -219,61 +184,61 @@ body {
 
 /* Clippy bubble */
 .clippy-emoji {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  font-size: 64px;
-  z-index: 99998;
-  animation: bounceIn 0.4s ease;
-  user-select: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 64px;
+    z-index: 99998;
+    animation: bounceIn 0.4s ease;
+    user-select: none;
 }
 
 .clippy-bubble {
-  position: fixed;
-  bottom: 130px;
-  right: 40px;
-  max-width: 280px;
-  padding: 15px;
-  background: #fefefe;
-  border-radius: 15px;
-  border: 2px solid #ddd;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  z-index: 99999;
-  cursor: pointer;
-  transition: all 0.4s ease;
+    position: fixed;
+    bottom: 130px;
+    right: 40px;
+    max-width: 280px;
+    padding: 15px;
+    background: #fefefe;
+    border-radius: 15px;
+    border: 2px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 99999;
+    cursor: pointer;
+    transition: all 0.4s ease;
 }
 
 .clippy-bubble::after {
-  content: "";
-  position: absolute;
-  bottom: -20px;
-  right: 20px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: #fefefe transparent transparent transparent;
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #fefefe transparent transparent transparent;
 }
 
 .bubble-text {
-  font-size: 14px;
-  color: #333;
-  font-family: "Segoe UI", sans-serif;
-  margin: 0;
+    font-size: 14px;
+    color: #333;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
 }
 
 .clippy-bubble.expand {
-  width: 80vw;
-  height: 70vh;
-  right: 10vw;
-  bottom: 10vh;
-  border-radius: 20px;
-  padding: 20px;
-  overflow: auto;
-  font-size: 16px;
-  background-color: white;
+    width: 80vw;
+    height: 70vh;
+    right: 10vw;
+    bottom: 10vh;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: auto;
+    font-size: 16px;
+    background-color: white;
 }
 
 .clippy-bubble.expand::after {
-  display: none;
+    display: none;
 }
 
 @keyframes bounceIn {
@@ -287,7 +252,7 @@ body {
   }
 }
 
-
+/* Suggestions */
 .clippy-suggest-box {
   position: fixed;
   bottom: 120px;
@@ -334,4 +299,25 @@ body {
 
 .clippy-suggest-actions button:hover {
   background: #ddd;
+}
+
+    
+/* Voice button */
+#voiceBtn {
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+#voiceBtn:hover {
+    background: linear-gradient(135deg, #4f46e5, #6d28d9);
+    transform: scale(1.05);
 }

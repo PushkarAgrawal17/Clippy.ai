@@ -1,14 +1,26 @@
-// clippy.js
+const MAX_HISTORY_LENGTH = 200;
+const WARNING_HISTORY_LENGTH = 180;
+
 const askBtn = document.getElementById("askBtn");
 const input = document.getElementById("userInput");
 const responseBox = document.getElementById("chat-box");
 const clippyImg = document.getElementById("clippy-avatar");
+let chatHistory = [];
+
+chrome.storage.sync.get("clippyChat", (data) => {
+    chatHistory = data.clippyChat || [];
+});
 
 askBtn.addEventListener("click", async () => {
     const userInput = input.value.trim();
     if (!userInput) return;
 
     appendMessage(userInput, "user");
+
+    // Save user input to chat history
+    chatHistory.push({ role: "user", content: userInput });
+    chatHistory = trimAndWarnHistory(chatHistory);
+
     input.value = "";
 
     clippyImg.src = "clippy-assets/clippy-thinking.gif";
@@ -26,11 +38,29 @@ askBtn.addEventListener("click", async () => {
         const res = await fetch("http://localhost:3000/ask", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userInput })
+            body: JSON.stringify({ history: chatHistory })
         });
 
         const data = await res.json();
-        typingEl.innerText = data.reply || "Hmm, couldn't get that.";
+        let botReply = data.reply || "Hmm, couldn't get that.";
+
+        // 🧹 Advanced cleanup
+        botReply = botReply
+            .replace(/(?:\s*\n\s*){2,}/g, '\n\n')      // collapse extra newlines
+            .replace(/[\u{1F600}-\u{1F64F}]{5,}/gu, '') // remove emoji spam
+            .replace(/assertEqual.*$/i, '')            // remove unwanted code leftovers
+            .replace(/equalSign.*$/i, '')
+            .replace(/```[\s\S]*?```/g, '')            // strip code blocks
+            .replace(/\*{2,}/g, '')                    // weird markdown bolds
+            .replace(/\s{2,}/g, ' ')                   // extra spaces
+            .trim();
+
+
+        typingEl.innerText = botReply;
+
+        // Save assistant reply to chat history
+        chatHistory.push({ role: "assistant", content: botReply });
+        chatHistory = trimAndWarnHistory(chatHistory);
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
     } finally {
@@ -48,15 +78,6 @@ input.addEventListener("keydown", (event) => {
     }
 });
 
-// function appendMessage(text, sender, returnEl = false) {
-//     const msg = document.createElement("div");
-//     msg.classList.add("chat-bubble", sender);
-//     msg.innerText = text;
-//     responseBox.appendChild(msg);
-//     responseBox.scrollTop = responseBox.scrollHeight;
-//     return returnEl ? msg : null;
-// }
-
 function appendMessage(text, sender, returnEl = false, isHTML = false) {
     const msg = document.createElement("div");
     msg.classList.add("chat-bubble", sender);
@@ -68,10 +89,24 @@ function appendMessage(text, sender, returnEl = false, isHTML = false) {
     }
 
     responseBox.appendChild(msg);
-    responseBox.scrollTop = responseBox.scrollHeight;
+    setTimeout(() => {
+        responseBox.scrollTop = responseBox.scrollHeight;
+    }, 0);
     return returnEl ? msg : null;
 }
 
+function trimAndWarnHistory(history) {
+    if (history.length >= WARNING_HISTORY_LENGTH && history.length < MAX_HISTORY_LENGTH) {
+        alert("⚠️ Clippy chat is getting long. Old messages will be removed soon to save space.");
+    }
+
+    if (history.length > MAX_HISTORY_LENGTH) {
+        history = history.slice(-MAX_HISTORY_LENGTH);
+    }
+
+    chrome.storage.sync.set({ clippyChat: history });
+    return history;
+}
 
 function replaceLastBotMessage(text) {
     const bubbles = responseBox.querySelectorAll(".chat-bubble.bot");
@@ -81,3 +116,43 @@ function replaceLastBotMessage(text) {
         appendMessage(text, "bot");
     }
 }
+
+const voiceBtn = document.getElementById("voiceBtn");
+
+voiceBtn.addEventListener("click", () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Speech Recognition not supported in this browser.");
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+            voiceBtn.innerHTML = `<i class="fas fa-microphone-lines" style="color: white;"></i>`;
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            input.value = transcript;
+            input.focus();
+        };
+
+        recognition.onerror = (e) => {
+            alert("Speech error: " + e.error);
+        };
+
+        recognition.onend = () => {
+            voiceBtn.innerHTML = `<i class="fas fa-microphone" style="color: white;"></i>`;
+        };
+
+        recognition.start();
+    }).catch((err) => {
+        alert("🎤 Microphone is blocked.\n\nTo fix this:\n1. Click on extensions icon\n2. Click on 3 dots beside Clippy.ai extension\n3. Go to View web permissions\n4. Set microphone permission to 'Allow'\n5. Reload the extension");
+    });
+});

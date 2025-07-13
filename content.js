@@ -13,36 +13,67 @@ function getActiveText() {
   return '';
 }
 
+document.addEventListener("mouseup", async () => {
+    const selectedText = window.getSelection().toString().trim();
+
+    if (!selectedText) {
+        removeClippy();
+        return;
+    }
+
+    showClippy("💭 Thinking...");
+
+    try {
+        const response = await fetch("http://localhost:3000/summarize", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text: selectedText })
+        });
+
+        const data = await response.json();
+        const aiReply = data.reply?.trim() || "🤷 I got nothing.";
+
+        showClippy(aiReply);
+    } catch (err) {
+        console.error("❌ Clippy API error:", err);
+        showClippy("😵 I couldn’t reach my brain!");
+    }
+});
+
 // ✨ Show Clippy + bubble
 function showClippy(text) {
-  if (!clippyIcon) {
-    clippyIcon = document.createElement("div");
-    clippyIcon.className = "clippy-emoji";
-    clippyIcon.textContent = "📎";
-    document.body.appendChild(clippyIcon);
-  }
+    // Create or update Clippy emoji
+    if (!clippyIcon) {
+        clippyIcon = document.createElement("div");
+        clippyIcon.className = "clippy-emoji";
+        clippyIcon.textContent = "📎";
+        document.body.appendChild(clippyIcon);
+    }
 
-  if (!bubble) {
-    bubble = document.createElement("div");
-    bubble.className = "clippy-bubble";
-    bubble.innerHTML = `<p class="bubble-text">${text}</p>`;
-    document.body.appendChild(bubble);
+    // Create or update the bubble
+    if (!bubble) {
+        bubble = document.createElement("div");
+        bubble.className = "clippy-bubble";
+        bubble.innerHTML = `<p class="bubble-text">${text}</p>`;
+        document.body.appendChild(bubble);
 
-    bubble.addEventListener("click", () => {
-      expanded = !expanded;
-      bubble.classList.toggle("expand");
-    });
-  } else {
-    bubble.querySelector(".bubble-text").textContent = text;
-  }
+        bubble.addEventListener("click", () => {
+            expanded = !expanded;
+            bubble.classList.toggle("expand");
+        });
+    } else {
+        bubble.querySelector(".bubble-text").textContent = text;
+    }
 }
 
 // ❌ Remove Clippy
 function removeClippy() {
-  clippyIcon?.remove();
-  bubble?.remove();
-  clippyIcon = null;
-  bubble = null;
+    clippyIcon?.remove();
+    bubble?.remove();
+    clippyIcon = null;
+    bubble = null;
 }
 
 // ✍️ Typing-based trigger
