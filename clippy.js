@@ -1,4 +1,8 @@
 // clippy.js
+
+const MAX_HISTORY_LENGTH = 200;      // absolute limit
+const WARNING_HISTORY_LENGTH = 180;  // show warning when near limit
+
 const askBtn = document.getElementById("askBtn");
 const input = document.getElementById("userInput");
 const responseBox = document.getElementById("chat-box");
@@ -26,7 +30,7 @@ askBtn.addEventListener("click", async () => {
 
     // ➕ Save user input to chat history
     chatHistory.push({ role: "user", content: userInput });
-    chrome.storage.sync.set({ clippyChat: chatHistory });
+    chatHistory = trimAndWarnHistory(chatHistory);
 
     input.value = "";
 
@@ -54,7 +58,7 @@ askBtn.addEventListener("click", async () => {
 
         // ✅ Save assistant reply to chat history
         chatHistory.push({ role: "assistant", content: botReply });
-        chrome.storage.sync.set({ clippyChat: chatHistory });
+        chatHistory = trimAndWarnHistory(chatHistory);
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
     }finally {
@@ -96,6 +100,18 @@ function appendMessage(text, sender, returnEl = false, isHTML = false) {
     return returnEl ? msg : null;
 }
 
+function trimAndWarnHistory(history) {
+    if (history.length >= WARNING_HISTORY_LENGTH && history.length < MAX_HISTORY_LENGTH) {
+        alert("⚠️ Clippy chat is getting long. Old messages will be removed soon to save space.");
+    }
+
+    if (history.length > MAX_HISTORY_LENGTH) {
+        history = history.slice(-MAX_HISTORY_LENGTH); // keep only last N
+    }
+
+    chrome.storage.sync.set({ clippyChat: history });
+    return history;
+}
 
 function replaceLastBotMessage(text) {
     const bubbles = responseBox.querySelectorAll(".chat-bubble.bot");
