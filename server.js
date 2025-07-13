@@ -29,14 +29,20 @@ app.post('/ask', async (req, res) => {
                 messages: [
                     {
                         role: "system",
-                        content: `You are Clippy.ai — a retro-themed AI Chrome Extension assistant built by team ByteForge.
-                        You are helpful, concise, and friendly. Always respond as Clippy, not as Mistral or an AI model.`
+                        content: `You are Clippy.ai — a retro-themed, floating AI assistant built by team ByteForge for OSDHack'25, inspired by the original Microsoft Clippit.
+                        You are helpful, concise, and friendly. Always identify as Clippy, never as Mistral, OpenRouter, or a generic AI model.
+                        Your responses should:
+                        - Be short and precise by default
+                        - Use correct formatting (markdown where appropriate)
+                        - Only be detailed when specifically asked
+                        Speak like a charming digital assistant with a retro twist.
+                        Let users define your personailty as they want.`
                     },
                     ...history
                 ],
                 temperature: 0.7,
-                max_tokens: 250,  // ✅ Limit output length
-                stop: ["assertEqual", "```", "<script", "<style"] // ✅ Prevent weird endings
+                max_tokens: 200,  // Limit output length
+                stop: ["assertEqual", "```", "<script", "<style"] // Prevent weird endings
             })
         });
 
@@ -63,7 +69,7 @@ app.post('/summarize', async (req, res) => {
     const prompt = text.trim().split(" ").length === 1
         ? `Give the meaning or definition of: "${text}"`
         : /^[A-Za-z0-9\s.,'";:!?()\[\]{}\-–]+$/.test(text)
-            ? `Summarize this clearly in 1-2 lines: "${text}"`
+            ? `Summarize this clearly in 1-2 lines(max 100 tokens): "${text}"`
             : `Translate this to English: "${text}"`;
 
     console.log("📨 Prompt:", prompt);
@@ -77,10 +83,10 @@ app.post('/summarize', async (req, res) => {
                 'X-Title': 'ClippySummarize'
             },
             body: JSON.stringify({
-                model: 'mistralai/mistral-7b-instruct', // ✅ reliable model
+                model: 'mistralai/mistral-7b-instruct',
                 messages: [{ role: 'user', content: prompt }],
                 temperature: 0.7,
-                max_tokens: 100
+                max_tokens: 101
             })
         });
 
@@ -101,22 +107,19 @@ app.post('/suggest', async (req, res) => {
 
     if (!text) return res.status(400).json({ reply: "No text provided." });
 
-  const prompt = `
-You are Clippy.ai — a playful yet intelligent assistant who can read the user's mind. The user is either writing normal text or code in some programming language (like C++, Python, JavaScript, etc).
+    const prompt = `
+    You are Clippy.ai — a playful yet intelligent assistant who responds like you're reading the user's mind. The user may type code, casual thoughts, or start writing something incomplete.
 
-👉 Your job:
-1. If it's **code**, detect the language and complete the code **logically and correctly**.
-   - Fix any syntax issues.
-   - Suggest the next few lines that would commonly follow.
-   - Wrap the reply in a valid code block
+    👉 Your job:
+    - Complete the user’s input in a way that feels smooth, natural, and context-aware.
+    - If it’s text, add a helpful, witty, or emotionally intelligent continuation.
+    - Sometimes, you can include a light-hearted reaction (like 😄, 🤔, 🎉) to what the user types — but keep it brief and relevant.
 
-2. If it's **normal text**, finish their sentence smoothly with a helpful, witty, or emotionally intelligent continuation. Make it sound natural and useful.
+    🚫 No explanations. Just complete or react — directly.
 
-🚫 Don't explain. Just return the **completed version** directly.
-
-Here’s the partial input from the user:
-"${text.trim()}"
-`;
+    Here’s the partial input from the user:
+    "${text.trim()}"
+    `;
     try {
         const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
@@ -130,7 +133,7 @@ Here’s the partial input from the user:
                 model: 'mistralai/mistral-7b-instruct',
                 messages: [{ role: 'user', content: prompt }],
                 temperature: 0.7,
-                max_tokens: 100
+                max_tokens: 101
             })
         });
 

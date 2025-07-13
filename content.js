@@ -7,10 +7,10 @@ const BACKSPACE_LIMIT = 3;
 
 // 🔠 Get text from current editable element
 function getActiveText() {
-  const el = document.activeElement;
-  if (el && el.isContentEditable) return el.innerText.trim();
-  if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) return el.value.trim();
-  return '';
+    const el = document.activeElement;
+    if (el && el.isContentEditable) return el.innerText.trim();
+    if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) return el.value.trim();
+    return '';
 }
 
 document.addEventListener("mouseup", async () => {
@@ -78,73 +78,73 @@ function removeClippy() {
 
 // ✍️ Typing-based trigger
 document.addEventListener('keydown', (event) => {
-  const text = getActiveText();
-  if (!text || text.length < 3) return;
+    const text = getActiveText();
+    if (!text || text.length < 3) return;
 
-  clearTimeout(typingTimer);
+    clearTimeout(typingTimer);
 
-  if (event.key === "Backspace") {
-    backspaceCount++;
-    if (backspaceCount >= BACKSPACE_LIMIT) {
-      console.log("🔁 Triggered by backspaces");
-      triggerTypingSuggestion(text);
-      backspaceCount = 0;
+    if (event.key === "Backspace") {
+        backspaceCount++;
+        if (backspaceCount >= BACKSPACE_LIMIT) {
+            console.log("🔁 Triggered by backspaces");
+            triggerTypingSuggestion(text);
+            backspaceCount = 0;
+        }
+    } else {
+        backspaceCount = 0;
     }
-  } else {
-    backspaceCount = 0;
-  }
 
-  typingTimer = setTimeout(() => {
-    console.log("⏳ Triggered by pause");
-    triggerTypingSuggestion(text);
-  }, PAUSE_TIME);
+    typingTimer = setTimeout(() => {
+        console.log("⏳ Triggered by pause");
+        triggerTypingSuggestion(text);
+    }, PAUSE_TIME);
 });
 
 // 🤖 Trigger sentence suggestion
 async function triggerTypingSuggestion(text) {
-  if (!text || text.length < 3) return;
+    if (!text || text.length < 3) return;
 
-  showClippy("💭 Thinking...");
+    showClippy("💭 Thinking...");
 
-  try {
-    const response = await fetch("http://localhost:3000/suggest", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/suggest", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text })
+        });
 
-    const data = await response.json();
-    const suggestion = data.reply?.trim() || "🤷 No suggestion.";
-    showClippy(suggestion);
-  } catch (err) {
-    console.error("❌ Typing API error:", err);
-    showClippy("😵 Couldn't fetch suggestion.");
-  }
+        const data = await response.json();
+        const suggestion = data.reply?.trim() || "🤷 No suggestion.";
+        showClippy(suggestion);
+    } catch (err) {
+        console.error("❌ Typing API error:", err);
+        showClippy("😵 Couldn't fetch suggestion.");
+    }
 }
 
 // 🖱️ Selection-based summarization
 document.addEventListener("mouseup", async () => {
-  const selectedText = window.getSelection().toString().trim();
+    const selectedText = window.getSelection().toString().trim();
 
-  if (!selectedText) {
-    removeClippy();
-    return;
-  }
+    if (!selectedText) {
+        removeClippy();
+        return;
+    }
 
-  showClippy("💭 Thinking...");
+    showClippy("💭 Thinking...");
 
-  try {
-    const response = await fetch("http://localhost:3000/summarize", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: selectedText })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/summarize", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: selectedText })
+        });
 
-    const data = await response.json();
-    const aiReply = data.reply?.trim() || "🤷 I got nothing.";
-    showClippy(aiReply);
-  } catch (err) {
-    console.error("❌ Clippy API error:", err);
-    showClippy("😵 I couldn’t reach my brain!");
-  }
+        const data = await response.json();
+        const aiReply = data.reply?.trim() || "🤷 I got nothing.";
+        showClippy(aiReply);
+    } catch (err) {
+        console.error("❌ Clippy API error:", err);
+        showClippy("😵 I couldn’t reach my brain!");
+    }
 });
