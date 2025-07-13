@@ -5,11 +5,16 @@
     backdrop-filter: blur(16px);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+    min-height: 400px;
+    max-width: 500px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border: none;
     transition: transform 0.3s ease;
+    resize:both;
 }
 
 #clippy-widget:hover {
@@ -111,7 +116,7 @@
 
 /* Ask Button */
 #askBtn {
-    padding: 10px 14px;
+    padding: 8px 12px;
     background: linear-gradient(135deg, #6366f1, #7c3aed);
     color: white;
     border: none;

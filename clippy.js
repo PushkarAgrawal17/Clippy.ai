@@ -1,26 +1,15 @@
-// clippy.js
-
-const MAX_HISTORY_LENGTH = 200;      // absolute limit
-const WARNING_HISTORY_LENGTH = 180;  // show warning when near limit
+const MAX_HISTORY_LENGTH = 200;
+const WARNING_HISTORY_LENGTH = 180;
 
 const askBtn = document.getElementById("askBtn");
 const input = document.getElementById("userInput");
 const responseBox = document.getElementById("chat-box");
 const clippyImg = document.getElementById("clippy-avatar");
-// 1️⃣ Try to load previous session chat (if any)
-// But we will NOT display it — just use it internally for context
 let chatHistory = [];
 
 chrome.storage.sync.get("clippyChat", (data) => {
     chatHistory = data.clippyChat || [];
 });
-
-// 2️⃣ Clear localStorage when popup is closed or reloaded
-// This ensures each new popup session is fresh
-// window.addEventListener("beforeunload", () => {
-//     localStorage.removeItem("clippyChat");
-//     chatHistory = [];
-// });
 
 askBtn.addEventListener("click", async () => {
     const userInput = input.value.trim();
@@ -28,7 +17,7 @@ askBtn.addEventListener("click", async () => {
 
     appendMessage(userInput, "user");
 
-    // ➕ Save user input to chat history
+    // Save user input to chat history
     chatHistory.push({ role: "user", content: userInput });
     chatHistory = trimAndWarnHistory(chatHistory);
 
@@ -49,19 +38,19 @@ askBtn.addEventListener("click", async () => {
         const res = await fetch("http://localhost:3000/ask", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ history: chatHistory })  // ✅ send full history
+            body: JSON.stringify({ history: chatHistory })
         });
 
         const data = await res.json();
         const botReply = data.reply || "Hmm, couldn't get that.";
         typingEl.innerText = botReply;
 
-        // ✅ Save assistant reply to chat history
+        // Save assistant reply to chat history
         chatHistory.push({ role: "assistant", content: botReply });
         chatHistory = trimAndWarnHistory(chatHistory);
     } catch (err) {
         typingEl.innerText = "Oops! Something went wrong.";
-    }finally {
+    } finally {
         clippyImg.src = "clippy-assets/clippy-idle.gif";
     }
 });
@@ -76,15 +65,6 @@ input.addEventListener("keydown", (event) => {
     }
 });
 
-// function appendMessage(text, sender, returnEl = false) {
-//     const msg = document.createElement("div");
-//     msg.classList.add("chat-bubble", sender);
-//     msg.innerText = text;
-//     responseBox.appendChild(msg);
-//     responseBox.scrollTop = responseBox.scrollHeight;
-//     return returnEl ? msg : null;
-// }
-
 function appendMessage(text, sender, returnEl = false, isHTML = false) {
     const msg = document.createElement("div");
     msg.classList.add("chat-bubble", sender);
@@ -96,7 +76,9 @@ function appendMessage(text, sender, returnEl = false, isHTML = false) {
     }
 
     responseBox.appendChild(msg);
-    responseBox.scrollTop = responseBox.scrollHeight;
+    setTimeout(() => {
+        responseBox.scrollTop = responseBox.scrollHeight;
+    }, 0);
     return returnEl ? msg : null;
 }
 
@@ -106,7 +88,7 @@ function trimAndWarnHistory(history) {
     }
 
     if (history.length > MAX_HISTORY_LENGTH) {
-        history = history.slice(-MAX_HISTORY_LENGTH); // keep only last N
+        history = history.slice(-MAX_HISTORY_LENGTH);
     }
 
     chrome.storage.sync.set({ clippyChat: history });
