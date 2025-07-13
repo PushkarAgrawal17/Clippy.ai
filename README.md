@@ -2,36 +2,45 @@
 
 **Clippy.ai** brings back the nostalgic charm of the old Microsoft Office paperclip — but this time, powered by GPT and living right in your Chrome browser.
 
-🧠 **AI-Powered**, 🎨 **Retro-Styled**, 🌐 **Runs on Any Website**
+🧠 **AI-Powered** , 🎨 **Retro-Styled** , 🌐 **Runs on Any Website**
 
 ---
 
 ## 🚀 **Features**
 
+🗨️ **Smart Assistant**
 - Floating Clippy on every webpage
-- Chat with GPT-based AI (using OpenAI, Groq, or Together API)
-- Smart and engaging features when text is selected like:
-  - Summarizes/translates selected text
-  - Gives quirky reactions
-  - More such suggestions and reactions
-- Modern UI but with nostalgic effect
-- Optional voice input
-- Cheerful and helpful personality
-- Fully open source and free!
+- Chat with GPT-based AI (OpenAI, Groq, Together)
+- Voice input via Web Speech API
+- Context-aware replies
+
+🧠 **Text Enhancements**
+- Auto-summarizes or translates selected text
+- Gives quirky reactions or suggestions
+
+🎨 **Nostalgic + Modern UI**
+- Retro Clippy avatar with modern chat UI
+- Animated typing indicator
+- Dark/light theme ready (coming soon!)
+
+💡 **Open & Extensible**
+- Fully open source
+- Easy to customize
+- Fast and lightweight
 
 ---
 
 ## 🖼️ **Demo**
 
-> _“It looks like you’re browsing the web. Want some help?”_
+### **Demo Screenshots**
+![Clippy.ai Screenshot](demo/ss1.png)
+![Clippy.ai Screenshot](demo/ss2.png)
+![Clippy.ai Screenshot](demo/ss3.png)
+![Clippy.ai Screenshot](demo/ss4.png)
 
-![Clippy.ai Screenshot](clippy-assets/ss1.png)
-![Clippy.ai Screenshot](clippy-assets/ss2.png)
-![Clippy.ai Screenshot](clippy-assets/ss3.png)
-![Clippy.ai Screenshot](clippy-assets/ss4.png)
+### **Demo video -**
+[![Watch the video](clippy-assets/Thumbnail.jpg)](https://www.youtube.com/watch?v=Cx55-KWhemE)
 
-Link for demo video-
-https://drive.google.com/file/d/1mFEO9u5o1NtdDvUZA4hO_WNBtu1_Yn4F/view?usp=sharing
 ---
 
 ## 🛠️ **Tech Stack**
@@ -78,8 +87,8 @@ https://drive.google.com/file/d/1mFEO9u5o1NtdDvUZA4hO_WNBtu1_Yn4F/view?usp=shari
    - Click Load Unpacked
    - Select the Clippy.ai/ folder
 
-Done! Visit any site and Clippy will appear!
-(Do check the permissions for the extensions)
+✅ That's it! Open any site - and Clippy will be there, ready to help.
+_(Do check the permissions for the extensions)_
 
 ---
 
@@ -87,12 +96,18 @@ Done! Visit any site and Clippy will appear!
 ``` bash
     Clippy.ai/
     ├── manifest.json         # Chrome extension config
+    ├── package.json          # Project dependencies and scripts
+    ├── package-lock.json     # Locks the scripts installed
     ├── content.js            # Injects Clippy into all pages
     ├── clippy.js             # Logic handling for chats
     ├── clippy.html           # Chat UI layout
     ├── clippy.css            # Styling
     ├── server.js             # Connection
     ├── clippy-assets/        # Clippy images
+    │   ├── clippy-idle.gif
+    │   └── clippy-thinking.gif
+    ├── icons/                # Clippy icons
+    ├── demo/                 # Demo images
     ├── README.md
     └── LICENSE
 ```
