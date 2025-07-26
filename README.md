@@ -30,19 +30,6 @@
 
 ---
 
-## 🖼️ **Demo**
-
-### **Demo Screenshots**
-![Clippy.ai Screenshot](demo/ss1.png)
-![Clippy.ai Screenshot](demo/ss2.png)
-![Clippy.ai Screenshot](demo/ss3.png)
-![Clippy.ai Screenshot](demo/ss4.png)
-
-### **Demo video -**
-[![Watch the video](demo/Thumbnail.jpg)](https://www.youtube.com/watch?v=Cx55-KWhemE)
-
----
-
 ## 🛠️ **Tech Stack**
 
 | Area                  | Tools Used                   |
@@ -51,6 +38,27 @@
 | Assistant Logic       | OpenAI / Groq / Together API |
 | UI & Animations       | HTML, CSS, JavaScript, Node JS, Express JS        |
 
+---
+
+## 📁 **Project Structure**
+``` bash
+    Clippy.ai/
+    ├── manifest.json         # Chrome extension config
+    ├── package.json          # Project dependencies and scripts
+    ├── package-lock.json     # Locks the scripts installed
+    ├── content.js            # Injects Clippy into all pages
+    ├── clippy.js             # Logic handling for chats
+    ├── clippy.html           # Chat UI layout
+    ├── clippy.css            # Styling
+    ├── server.js             # Connection
+    ├── clippy-assets/        # Clippy images
+    │   ├── clippy-idle.gif
+    │   └── clippy-thinking.gif
+    ├── icons/                # Clippy icons
+    ├── demo/                 # Demo images
+    ├── README.md
+    └── LICENSE
+```
 
 ---
 
@@ -92,25 +100,16 @@ _(Do check the permissions for the extensions)_
 
 ---
 
-## 📁 **Project Structure**
-``` bash
-    Clippy.ai/
-    ├── manifest.json         # Chrome extension config
-    ├── package.json          # Project dependencies and scripts
-    ├── package-lock.json     # Locks the scripts installed
-    ├── content.js            # Injects Clippy into all pages
-    ├── clippy.js             # Logic handling for chats
-    ├── clippy.html           # Chat UI layout
-    ├── clippy.css            # Styling
-    ├── server.js             # Connection
-    ├── clippy-assets/        # Clippy images
-    │   ├── clippy-idle.gif
-    │   └── clippy-thinking.gif
-    ├── icons/                # Clippy icons
-    ├── demo/                 # Demo images
-    ├── README.md
-    └── LICENSE
-```
+## 🖼️ **Demo**
+
+### **Demo Screenshots**
+![Clippy.ai Screenshot](demo/ss1.png)
+![Clippy.ai Screenshot](demo/ss2.png)
+![Clippy.ai Screenshot](demo/ss3.png)
+![Clippy.ai Screenshot](demo/ss4.png)
+
+### **Demo video -**
+[![Watch the video](demo/Thumbnail.jpg)](https://www.youtube.com/watch?v=Cx55-KWhemE)
 
 ---
 
